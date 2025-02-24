@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ⬅️ Import useNavigate
 import { auth, googleProvider } from "@/firebaseConfig";
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
-  sendPasswordResetEmail, 
-  signInWithPopup 
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithPopup
 } from "firebase/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,7 @@ export default function AuthForm() {
   const [password, setPassword] = useState("");
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate(); // ⬅️ สร้างตัวแปร navigate
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +30,7 @@ export default function AuthForm() {
         await signInWithEmailAndPassword(auth, email, password);
         alert("Login successful!");
       }
+      navigate("/dashboard"); // ⬅️ นำทางไป Dashboard เมื่อสำเร็จ
     } catch (err: any) {
       setError(err.message);
     }
@@ -37,6 +40,7 @@ export default function AuthForm() {
     try {
       await signInWithPopup(auth, googleProvider);
       alert("Google Sign-In successful!");
+      navigate("/dashboard"); // ⬅️ นำทางไป Dashboard เมื่อสำเร็จ
     } catch (err: any) {
       setError(err.message);
     }
@@ -56,14 +60,14 @@ export default function AuthForm() {
   };
 
   return (
-    <Card className="w-96">
+    <Card className="w-96 flex flex-col">
       <CardHeader>
         <CardTitle className="text-center">{isRegister ? "Register" : "Sign In"}</CardTitle>
       </CardHeader>
       <CardContent>
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+
+        <form onSubmit={handleSubmit} className="flex flex-col w-full justify-center gap-3">
           <Input
             type="email"
             placeholder="Email"
@@ -72,23 +76,30 @@ export default function AuthForm() {
             required
           />
           <Input
+          className="rounded-lg"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <Button type="submit">{isRegister ? "Register" : "Sign In"}</Button>
+          <Button
+          className="rounded-full bg-blue-500 text-white hover:bg-blue-700"
+           type="submit">{isRegister ? "Register" : "Sign In"}
+           </Button>
         </form>
 
-        <Button 
-          onClick={handleGoogleSignIn} 
-          className="mt-3 flex items-center justify-center gap-2 bg-gray-200 text-black"
-        >
-          <FcGoogle size={20} /> Sign in with Google
-        </Button>
+        <div className="flex w-full justify-center">
+          <Button
+            onClick={handleGoogleSignIn}
+            className="mt-3 flex rounded-full items-center justify-center gap-2 hover:bg-gray-300 text-black bg-gray-100"
+          >
+            <FcGoogle size={20}  /> Sign in with Google
+          </Button>
+        </div>
 
-        <p 
+
+        <p
           className="text-sm text-blue-500 text-center mt-3 cursor-pointer"
           onClick={handleResetPassword}
         >
