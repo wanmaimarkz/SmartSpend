@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, setPersistence, browserSessionPersistence, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCiOYRZr2iD98cXM_P03SmOcvVKIKJtII8",
@@ -8,8 +8,9 @@ const firebaseConfig = {
     storageBucket: "smartspend-44816.firebasestorage.app",
     messagingSenderId: "462508185581",
     appId: "1:462508185581:web:888aca7c7f83963257b9e4"
-};
+  };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+setPersistence(auth, browserSessionPersistence);
