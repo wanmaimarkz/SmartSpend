@@ -7,15 +7,22 @@ import { onAuthStateChanged } from "firebase/auth";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 
 export default function TransactionPage() {
-  const [transactions, setTransactions] = useState<{ id: string; type: string; amount: number; category: string, l_date: string }[]>([]);
+  const [transactions, setTransactions] = useState<{ id: string; type: string; amount: number; category: string, l_date: string, l_time: string }[]>([]);
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState<"income" | "expense">("expense");
@@ -54,7 +61,7 @@ export default function TransactionPage() {
   };
 
   return (
-    <div className="flex flex-col items-center p-4">
+    <div className="flex flex-col w-full items-center p-4">
       <h1 className="text-2xl font-bold mb-4">บันทึกรายรับ-รายจ่าย</h1>
 
       {!user ? (
@@ -62,32 +69,39 @@ export default function TransactionPage() {
       ) : (
         <>
           <div className="bg-white p-4 shadow-md rounded-lg w-full max-w-md">
-            <select value={type} onChange={(e) => setType(e.target.value as "income" | "expense")} className="w-full mb-2 p-2 border rounded">
-              <option value="income">รายรับ</option>
-              <option value="expense">รายจ่าย</option>
-            </select>
+            <Select value={type} onValueChange={(value) => setType(value as "income" | "expense")}>
+              <SelectTrigger className="classNamw-full mb-2 p-2 border roundede">
+                <SelectValue placeholder="เลือกประเภท" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                {/* <SelectLabel>เลือกประเภท</SelectLabel> */}
+                <SelectItem value="income">รายรับ</SelectItem>
+                <SelectItem value="expense">รายจ่าย</SelectItem>
+              </SelectContent>
+            </Select>
             <Input type="number" placeholder="จำนวนเงิน" value={amount} onChange={(e) => setAmount(e.target.value)} className="mb-2" />
             <Input type="text" placeholder="หมวดหมู่ (เช่น อาหาร ค่าเดินทาง)" value={category} onChange={(e) => setCategory(e.target.value)} className="mb-2" />
             <Button onClick={handleAddTransaction} className="w-full bg-blue-500 hover:bg-blue-700" disabled={isLoading}>
               {isLoading ? "กำลังบันทึก..." : "เพิ่มรายการ"}
             </Button>
           </div>
-          <div className="w-full max-w-md mt-6">
+          <div className="flex flex-col w-full h-96 max-w-md mt-6">
             <h2 className="text-lg font-bold mb-2">รายการล่าสุด</h2>
             {transactions.length === 0 ? (
               <p className="text-gray-500">ไม่มีรายการ</p>
             ) : (
-              <Table>
-                <TableCaption>บันทึกรายรับ-รายจ่ายของคุณ</TableCaption>
-                <TableHeader>
+              <Table className="rounded-xl">
+                {/* <TableCaption>บันทึกรายรับ-รายจ่ายของคุณ</TableCaption> */}
+                <TableHeader className="sticky top-0 shadow-md bg-green-300 rounded-xl">
                   <TableRow>
                     <TableHead className="w-[100px]">Type</TableHead>
                     <TableHead>Category</TableHead>
                     <TableHead>Amount</TableHead>
-                    <TableHead className="text-right">Date Time</TableHead>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Time</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className="overflow-y-auto">
                   {transactions.map((txn) => (
                     <TableRow>
                       <TableCell className={`p-2 border-b last:border-none ${txn.type === "income" ? "text-green-600" : "text-red-600"}`}>
@@ -96,6 +110,7 @@ export default function TransactionPage() {
                       <TableCell>{txn.category}</TableCell>
                       <TableCell>{txn.amount}</TableCell>
                       <TableCell>{txn.l_date}</TableCell>
+                      <TableCell>{txn.l_time}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

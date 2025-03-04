@@ -4,7 +4,7 @@ import { auth, googleProvider } from "@/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail,
+  // sendPasswordResetEmail,
   signInWithPopup
 } from "firebase/auth";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ export default function AuthForm() {
   const [password, setPassword] = useState("");
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState("");
-  const navigate = useNavigate(); // ⬅️ สร้างตัวแปร navigate
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ export default function AuthForm() {
         await signInWithEmailAndPassword(auth, email, password);
         alert("Login successful!");
       }
-      navigate("/dashboard"); // ⬅️ นำทางไป Dashboard เมื่อสำเร็จ
+      navigate("/dashboard");
     } catch (err: any) {
       setError(err.message);
     }
@@ -40,24 +40,24 @@ export default function AuthForm() {
     try {
       await signInWithPopup(auth, googleProvider);
       alert("Google Sign-In successful!");
-      navigate("/dashboard"); // ⬅️ นำทางไป Dashboard เมื่อสำเร็จ
+      navigate("/dashboard");
     } catch (err: any) {
       setError(err.message);
     }
   };
 
-  const handleResetPassword = async () => {
-    if (!email) {
-      alert("Please enter your email to reset password.");
-      return;
-    }
-    try {
-      await sendPasswordResetEmail(auth, email);
-      alert("Password reset email sent! Check your inbox.");
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
+  // const handleResetPassword = async () => {
+  //   if (!email) {
+  //     alert("Please enter your email to reset password.");
+  //     return;
+  //   }
+  //   try {
+  //     await sendPasswordResetEmail(auth, email);
+  //     alert("Password reset email sent! Check your inbox.");
+  //   } catch (err: any) {
+  //     setError(err.message);
+  //   }
+  // };
 
   return (
     <Card className="w-96 flex flex-col">
@@ -99,12 +99,12 @@ export default function AuthForm() {
         </div>
 
 
-        <p
+        {/* <p
           className="text-sm text-blue-500 text-center mt-3 cursor-pointer"
           onClick={handleResetPassword}
         >
           Forgot Password? Reset Here
-        </p>
+        </p> */}
 
         <p className="text-sm text-center mt-4">
           {isRegister ? "Already have an account?" : "Don't have an account?"}{" "}
