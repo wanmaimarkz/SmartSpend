@@ -1,7 +1,11 @@
 
 import AuthForm from "@/components/AuthForm";
+import { useEffect } from "react";
 
 export default function Login() {
+  useEffect(() => {
+      document.title = "Sign in | SmartSpend";
+    }, []);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">

@@ -1,17 +1,21 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Home from "@/pages/Home";
 import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
+import LoadingScreen from "@/components/LoadingScreen";
+import TransactionPage from "@/pages/TransactionPage";
 
 export default function App() {
   const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -20,12 +24,19 @@ export default function App() {
     await signOut(auth);
   };
 
+  if (loading) return <LoadingScreen />;
+
   return (
     <Routes>
-      <Route path="/home" element={<Home/>}/>
-      <Route path="/" element={<Navigate to="/login" replace />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={user ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />} />
+      <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
+      <Route path="/transactions" element={<TransactionPage />} />
+      <Route path="/dashboard" element={<ProtectedRoute user={user}><Dashboard onLogout={handleLogout} /></ProtectedRoute>} />
     </Routes>
   );
+}
+
+function ProtectedRoute({ user, children }: { user: any, children: JSX.Element }) {
+  return user ? children : <Navigate to="/login" />;
 }
