@@ -1,4 +1,4 @@
-const API_KEY = "9a2448a4f71c4931f5b655d5"; // 🔹 ใช้ API ฟรีเช่น exchangerate-api.com
+const API_KEY = "9a2448a4f71c4931f5b655d5";
 
 export const convertCurrency = async (amount: number, fromCurrency: string, toCurrency: string) => {
   try {
