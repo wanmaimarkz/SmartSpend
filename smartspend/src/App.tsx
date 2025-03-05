@@ -1,16 +1,18 @@
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation  } from "react-router-dom";
 import { JSX, useEffect, useState } from "react";
 import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import Home from "@/pages/Home";
+// import Home from "@/pages/Home";
 import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
 import LoadingScreen from "@/components/LoadingScreen";
 import TransactionPage from "@/pages/TransactionPage";
+import Navbar from "@/components/Navbar";
 
 export default function App() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -27,13 +29,15 @@ export default function App() {
   if (loading) return <LoadingScreen />;
 
   return (
-    <Routes>
-      <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
-      <Route path="/transactions" element={<TransactionPage />} />
-      <Route path="/dashboard" element={<ProtectedRoute user={user}><Dashboard onLogout={handleLogout} /></ProtectedRoute>} />
-    </Routes>
+    <div className="w-screen h-full">
+      {location.pathname !== "/login" && <Navbar onLogout={handleLogout}/>}
+      <Routes>
+        <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+        <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
+        <Route path="/transactions" element={<ProtectedRoute user={user}><TransactionPage /></ProtectedRoute>} />
+        <Route path="/dashboard" element={<ProtectedRoute user={user}><Dashboard/></ProtectedRoute>} />
+      </Routes>
+    </div>
   );
 }
 

@@ -35,6 +35,7 @@ export const getTransactions = async (userId: string) => {
     category: doc.data().category,
     amount: doc.data().amount,
     type: doc.data().type,
-    l_date: new Date(doc.data().date).toLocaleString("th-TH", { timeZone: "Asia/Bangkok" }),
+    l_date: new Date(doc.data().date).toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" }),
+    l_time: new Date(doc.data().date).toLocaleTimeString("th-TH", { timeZone: "Asia/Bangkok" }),
   }));
 };

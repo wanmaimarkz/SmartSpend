@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { getTransactions } from "@/services/transactionService";
 import { getMonthlySummary } from "@/services/summaryService";
 import ExpenseChart from "@/components/ExpenseChart";
-import { Button } from "@/components/ui/button";
 
-export default function Dashboard({ onLogout }: { onLogout: () => void }) {
+export default function Dashboard() {
   const [transactions, setTransactions] = useState<{ name: string; value: number }[]>([]);
   const [summary, setSummary] = useState({ income: 0, expense: 0, balance: 0 });
 
@@ -40,10 +39,6 @@ export default function Dashboard({ onLogout }: { onLogout: () => void }) {
       </div>
 
       <ExpenseChart data={transactions} />
-
-      <Button className="bg-red-500 mt-4" onClick={onLogout}>
-        Logout
-      </Button>
     </div>
   );
 }
