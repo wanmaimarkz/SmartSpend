@@ -8,6 +8,7 @@ import Login from "@/pages/Login";
 import LoadingScreen from "@/components/LoadingScreen";
 import TransactionPage from "@/pages/TransactionPage";
 import Navbar from "@/components/Navbar";
+import ConvertCurrency from "@/pages/ConvertCurrecyPage";
 
 export default function App() {
   const [user, setUser] = useState<any>(null);
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
         <Route path="/transactions" element={<ProtectedRoute user={user}><TransactionPage /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute user={user}><Dashboard/></ProtectedRoute>} />
+        <Route path="/convertCurency" element={ <ConvertCurrency/> } />
       </Routes>
     </div>
   );

@@ -1,12 +1,16 @@
 import { db } from "@/firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, Timestamp } from "firebase/firestore";
 
-// ✅ ดึงสรุปยอดรายเดือน
-export const getMonthlySummary = async (userId: string) => {
+export const getMonthlySummary = async (userId: string = "ISULGuzZNdhnftBtJbZpYYAWTmA3") => {
   const now = new Date();
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const startOfMonthTimestamp = Timestamp.fromDate(startOfMonth);
+  const q = query(
+    collection(db, "transactions"),
+    where("userId", "==", userId),
+    where("date", ">=", startOfMonthTimestamp)
+  );
 
-  const q = query(collection(db, "transactions"), where("userId", "==", userId), where("date", ">=", startOfMonth));
   const snapshot = await getDocs(q);
 
   let income = 0, expense = 0;

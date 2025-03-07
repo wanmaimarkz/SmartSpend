@@ -1,31 +1,48 @@
 import { useEffect, useState } from "react";
-import { getTransactions } from "@/services/transactionService";
 import { getMonthlySummary } from "@/services/summaryService";
-import ExpenseChart from "@/components/ExpenseChart";
+import { auth } from "@/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import SummaryChart from "@/components/SummaryChart";
 
 export default function Dashboard() {
-  const [transactions, setTransactions] = useState<{ name: string; value: number }[]>([]);
+  const [percent, setPercent] = useState<{ label: string; value: number }[]>([]);
   const [summary, setSummary] = useState({ income: 0, expense: 0, balance: 0 });
+  const [user, setUser] = useState<any>(null);
+
+  const fetchData = async (userId: string) => {
+    const summaryData = await getMonthlySummary(userId);
+    setSummary(summaryData);
+
+    const total = summaryData.income + summaryData.expense;
+    if (total > 0) {
+      const summaryChartData = [
+        { label: "รายรับ", value: (summaryData.income / total) * 100 },
+        { label: "รายจ่าย", value: (summaryData.expense / total) * 100 },
+      ];
+      setPercent(summaryChartData);
+    } else {
+      setPercent([]);
+    }
+  };
 
   useEffect(() => {
     document.title = "Dashboard | SmartSpend";
 
-    const fetchData = async () => {
-      const userId = "user123";
-      
-      const txns = await getTransactions(userId);
-      const chartData = txns.map((txn) => ({
-        name: txn.category,
-        value: txn.amount,
-      }));
-      setTransactions(chartData);
-
-      const summaryData = await getMonthlySummary(userId);
-      setSummary(summaryData);
-    };
-
-    fetchData();
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      fetchData(user.uid);
+    }
+  }, [user]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-4">
@@ -37,8 +54,9 @@ export default function Dashboard() {
         <p className="text-green-600">รายรับ: {summary.income} บาท</p>
         <p className="text-red-600">รายจ่าย: {summary.expense} บาท</p>
       </div>
-
-      <ExpenseChart data={transactions} />
+      <div className="">
+        <SummaryChart data={percent} />
+      </div>
     </div>
   );
 }

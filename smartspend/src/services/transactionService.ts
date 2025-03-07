@@ -1,5 +1,5 @@
 import { db } from "@/firebaseConfig";
-import { collection, addDoc, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc, getDocs, query, where, serverTimestamp  } from "firebase/firestore";
 
 // เพิ่มรายรับ-รายจ่าย
 export const addTransaction = async (userId: string, type: "income" | "expense", amount: number, category: string) => {
@@ -9,7 +9,8 @@ export const addTransaction = async (userId: string, type: "income" | "expense",
       type,
       amount,
       category,
-      date: new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" }),
+      date: serverTimestamp(),
+      l_dt: Date.parse(new Date().toLocaleString("en-US", { timeZone: "Asia/Bangkok" })) ,
     });
   } catch (error) {
     console.error("Error adding transaction:", error);
@@ -35,7 +36,9 @@ export const getTransactions = async (userId: string) => {
     category: doc.data().category,
     amount: doc.data().amount,
     type: doc.data().type,
-    l_date: new Date(doc.data().date).toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" }),
-    l_time: new Date(doc.data().date).toLocaleTimeString("th-TH", { timeZone: "Asia/Bangkok" }),
+    // l_date:new Date(doc.data().date),
+    // l_time:new Date(doc.data().date),
+    l_date: new Date(doc.data().l_dt).toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" }),
+    l_time: new Date(doc.data().l_dt).toLocaleTimeString("th-TH", { timeZone: "Asia/Bangkok" }),
   }));
 };
