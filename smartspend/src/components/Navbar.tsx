@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { 
-    Menu, NotebookPen, Gauge, LogOut, ArrowRightLeft, ChevronDown, User, ListTree  
+    Menu, NotebookPen, Gauge, LogOut, ArrowRightLeft, User, ListTree, Flag
 } from 'lucide-react';
 import {
     DropdownMenu,
@@ -16,60 +16,61 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
     const toggleMenu = () => setIsOpen(!isOpen);
 
     return (
-        <nav className="bg-blue-600 sticky top-0">
+        <nav className="bg-green-400 sticky top-0">
             <div className="max-w-full px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     {/* Logo & Brand */}
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-2 w-3/12">
+                        <img src="/SmartSpendIcon.svg" alt="LogoApp" className="w-12 h-12" />
                         <Link to="/" className="text-white font-bold text-xl">
                             SmartSpend
                         </Link>
                     </div>
 
                     {/* Desktop Menu */}
-                    <div className="hidden sm:flex sm:items-center sm:space-x-6">
+                    <div className="hidden sm:flex sm:items-center sm:space-x-2 w-6/12">
                         <Link
                             to="/dashboard"
-                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-blue-700  transition duration-200"
+                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-green-700  transition duration-200"
                         >
                             Dashboard
                         </Link>
                         <Link
                             to="/transactions"
-                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-blue-700  transition duration-200"
+                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-green-700  transition duration-200"
                         >
                             Transactions
                         </Link>
                         <Link
                             to="/convertCurency"
-                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-blue-700  transition duration-200"
+                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-green-700  transition duration-200"
                         >
-                            ConvertCurrency
+                            Convert Currency
                         </Link>
                         <Link
-                            to="/settings"
-                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-blue-700  transition duration-200"
+                            to="/savingGoals"
+                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-green-700  transition duration-200"
                         >
-                            Settings
+                            Saving Goals   
                         </Link>
                     </div>
-                    <div className="hidden sm:flex sm:items-center sm:space-x-6">
+                    <div className="hidden sm:flex sm:items-center sm:space-x-6 w-1/12 justify-end">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <button className="flex items-center space-x-2 focus:outline-none text-white ">
-                                    <User className="w-5 h-5 rounded-full stroke-orange-50 border-2 mb-1" />
-                                    <span className="font-semibold" >Account</span>
-                                    <ChevronDown className="w-5 h-5 hover:bg-blue-700 rounded-md" />
+                                    <User className="w-7 h-7 rounded-full stroke-orange-50 border-2 mb-1" />
+                                    {/* <span className="font-semibold" >Account</span> */}
+                                    {/* <ChevronDown className="w-5 h-5 hover:bg-blue-700 rounded-md" /> */}
                                 </button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-56 bg-white gap-2">
-                                <DropdownMenuItem asChild className="hover:bg-gray-200 duration-500">
+                            <DropdownMenuContent align="end" className="w-48 bg-white gap-2">
+                                {/* <DropdownMenuItem asChild className="hover:bg-gray-200 duration-500">
                                     <Link to="/profile">Profile</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem asChild className="hover:bg-gray-200 duration-300">
                                     <Link to="/settings">Settings</Link>
                                 </DropdownMenuItem>
-                                <hr />
+                                <hr /> */}
                                 <DropdownMenuItem onClick={onLogout} className="hover:bg-gray-200 duration-300">
                                     <LogOut className="w-4 h-4 mr-2" />
                                     <span>Logout</span>
@@ -124,6 +125,14 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                         >
                             <ArrowRightLeft />
                             อัตราแลกเปลี่ยน
+                        </Link>
+                        <Link
+                            to="/savingGoals"
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-white hover:bg-blue-700 hover:border-white"
+                        >
+                            <Flag />
+                            การตั้งเป้าหมายการออม
                         </Link>
                         <Link
                             to="/login"

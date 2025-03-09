@@ -92,7 +92,7 @@ export default function AuthForm() {
         <div className="flex w-full justify-center">
           <Button
             onClick={handleGoogleSignIn}
-            className="mt-3 flex rounded-full items-center justify-center gap-2 hover:bg-gray-300 text-black bg-gray-100"
+            className="mt-3 flex rounded-full items-center justify-center gap-2 hover:bg-gray-200 text-black bg-gray-100"
           >
             <FcGoogle size={20}  /> Sign in with Google
           </Button>

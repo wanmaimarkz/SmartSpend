@@ -45,16 +45,24 @@ export default function Dashboard() {
   }, [user]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-4">
-      <h1 className="text-3xl font-bold mb-2">Dashboard</h1>
+    <div className="flex flex-col items-center h-screen bg-gray-100 px-4 py-10">
+      <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
       <p className="text-gray-600 mb-4">Welcome to your financial dashboard.</p>
 
       <div className="bg-white p-4 rounded-lg shadow-md w-full max-w-md text-center mb-4">
-        <h2 className="text-xl font-bold">ยอดคงเหลือ: {summary.balance} บาท</h2>
-        <p className="text-green-600">รายรับ: {summary.income} บาท</p>
-        <p className="text-red-600">รายจ่าย: {summary.expense} บาท</p>
+        <h2 className="text-3xl font-bold">ยอดคงเหลือ</h2>
+        <h3 className={`text-lg ${summary.balance > 0 ? "text-green-500" : "text-red-500"}  font-semibold mb-4`}>{summary.balance} บาท</h3>
+        <hr />
+        <div className="grid grid-cols-3 gap-2 mt-4 font-semibold text-sm">
+          <div className="flex justify-end"><div className="flex w-5/12 justify-start">รายรับ</div></div>
+          <div className="text-green-500">{summary.income}</div>
+          <div className="flex items-start pl-3">บาท</div>
+          <div className="flex justify-end"><div className="flex w-5/12 justify-start">รายจ่าย</div></div>
+          <div className="text-red-500">{summary.expense}</div>
+          <div className="flex items-start pl-3">บาท  </div>
+        </div>
       </div>
-      <div className="">
+      <div className=" flex flex-col gap-2 items-center justify-center">
         <SummaryChart data={percent} />
       </div>
     </div>

@@ -2,13 +2,14 @@ import { Routes, Route, Navigate, useLocation  } from "react-router-dom";
 import { JSX, useEffect, useState } from "react";
 import { auth } from "@/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-// import Home from "@/pages/Home";
+import TransactionDetailPage from "@/pages/TransactionDetailPage";
 import Dashboard from "@/pages/Dashboard";
 import Login from "@/pages/Login";
 import LoadingScreen from "@/components/LoadingScreen";
 import TransactionPage from "@/pages/TransactionPage";
 import Navbar from "@/components/Navbar";
 import ConvertCurrency from "@/pages/ConvertCurrecyPage";
+import SavingsGoal from "@/pages/SavingGoalsPage";
 
 export default function App() {
   const [user, setUser] = useState<any>(null);
@@ -38,6 +39,8 @@ export default function App() {
         <Route path="/transactions" element={<ProtectedRoute user={user}><TransactionPage /></ProtectedRoute>} />
         <Route path="/dashboard" element={<ProtectedRoute user={user}><Dashboard/></ProtectedRoute>} />
         <Route path="/convertCurency" element={ <ConvertCurrency/> } />
+        <Route path="/savingGoals" element={ <ProtectedRoute user={user}><SavingsGoal/></ProtectedRoute>} />
+        <Route path="/transactions/:id" element={<ProtectedRoute user={user}><TransactionDetailPage /></ProtectedRoute>}/>
       </Routes>
     </div>
   );

@@ -1,5 +1,5 @@
 import { db } from "@/firebaseConfig";
-import { collection, addDoc, deleteDoc, doc, getDocs, query, where, serverTimestamp  } from "firebase/firestore";
+import { collection, addDoc, deleteDoc, doc, getDocs, query, where, serverTimestamp, orderBy  } from "firebase/firestore";
 
 // เพิ่มรายรับ-รายจ่าย
 export const addTransaction = async (userId: string, type: "income" | "expense", amount: number, category: string) => {
@@ -29,15 +29,14 @@ export const deleteTransaction = async (transactionId: string) => {
 
 // ดึงธุรกรรมจาก Firestore
 export const getTransactions = async (userId: string) => {
-  const q = query(collection(db, "transactions"), where("userId", "==", userId));
+  const q = query(collection(db, "transactions"), where("userId", "==", userId), orderBy("date", "desc"));
   const snapshot = await getDocs(q);
+  
   return snapshot.docs.map((doc) => ({
     id: doc.id,
     category: doc.data().category,
     amount: doc.data().amount,
     type: doc.data().type,
-    // l_date:new Date(doc.data().date),
-    // l_time:new Date(doc.data().date),
     l_date: new Date(doc.data().l_dt).toLocaleDateString("th-TH", { timeZone: "Asia/Bangkok" }),
     l_time: new Date(doc.data().l_dt).toLocaleTimeString("th-TH", { timeZone: "Asia/Bangkok" }),
   }));
