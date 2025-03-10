@@ -16,13 +16,13 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
     const toggleMenu = () => setIsOpen(!isOpen);
 
     return (
-        <nav className="bg-green-400 sticky top-0">
+        <nav className="bg-[#2C7A7B] sticky top-0">
             <div className="max-w-full px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     {/* Logo & Brand */}
                     <div className="flex items-center gap-2 w-3/12">
-                        <img src="/SmartSpendIcon.svg" alt="LogoApp" className="w-12 h-12" />
-                        <Link to="/" className="text-white font-bold text-xl">
+                        <img src="/SmartSpendIcon.svg" alt="LogoApp" className="w-12 h-12 opacity-75" />
+                        <Link to="/" className="text-[#E6FFFA] font-bold text-xl">
                             SmartSpend
                         </Link>
                     </div>
@@ -31,25 +31,25 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                     <div className="hidden sm:flex sm:items-center sm:space-x-2 w-6/12">
                         <Link
                             to="/dashboard"
-                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-green-700  transition duration-200"
+                            className="flex h-4/6 text-sm font-semibold gap-2 items-center rounded-md px-4 text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black  transition duration-200"
                         >
                             Dashboard
                         </Link>
                         <Link
                             to="/transactions"
-                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-green-700  transition duration-200"
+                            className="flex h-4/6 text-sm font-semibold gap-2 items-center rounded-md px-4 text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black  transition duration-200"
                         >
                             Transactions
                         </Link>
                         <Link
                             to="/convertCurency"
-                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-green-700  transition duration-200"
+                            className="flex h-4/6 text-sm font-semibold gap-2 items-center rounded-md px-4 text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black  transition duration-200"
                         >
                             Convert Currency
                         </Link>
                         <Link
                             to="/savingGoals"
-                            className="flex h-4/6 text-sm gap-2 items-center rounded-md px-4 text-white hover:bg-green-700  transition duration-200"
+                            className="flex h-4/6 text-sm font-semibold gap-2 items-center rounded-md px-4 text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black  transition duration-200"
                         >
                             Saving Goals   
                         </Link>
@@ -83,7 +83,7 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                     <div className="flex items-center sm:hidden">
                         <button
                             onClick={toggleMenu}
-                            className="p-2 rounded-md text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition duration-700"
+                            className="p-2 rounded-md text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition duration-700"
                         >
                             <span className="sr-only">Open main menu</span>
                                 {!isOpen ? (
@@ -99,13 +99,13 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
 
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="absolute inset-x-0 top-16 z-50 bg-blue-600">
-                    <div className="pt-2 pb-3 space-y-1 bg-blue-600">
+                <div className="absolute inset-x-0 top-16 z-50 bg-[#2C7A7B]">
+                    <div className="pt-2 pb-3 space-y-1 bg-[#308385]">
                         <Link
                             to="/dashboard"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-white hover:bg-blue-700 hover:border-white"
-                            //className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-white text-base font-medium text-white bg-blue-700"
+                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black hover:border-white"
+                            
                         >
                             <Gauge />
                             Dashboard
@@ -113,7 +113,7 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                         <Link
                             to="/transactions"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-white hover:bg-blue-700 hover:border-white"
+                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black hover:border-white"
                         >
                             <NotebookPen />
                             บันทึกรายรับ-รายจ่าย
@@ -121,7 +121,7 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                         <Link
                             to="/convertCurency"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-white hover:bg-blue-700 hover:border-white"
+                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black hover:border-white"
                         >
                             <ArrowRightLeft />
                             อัตราแลกเปลี่ยน
@@ -129,7 +129,7 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                         <Link
                             to="/savingGoals"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-white hover:bg-blue-700 hover:border-white"
+                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black hover:border-white"
                         >
                             <Flag />
                             การตั้งเป้าหมายการออม
@@ -137,7 +137,7 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                         <Link
                             to="/login"
                             onClick={onLogout}
-                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-white hover:bg-blue-700 hover:border-white"
+                            className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black hover:border-white"
                         >
                             <LogOut />
                             ออกจากระบบ

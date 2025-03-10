@@ -65,7 +65,7 @@ export default function TransactionPage() {
   };
 
   return (
-    <div className="flex flex-col w-full h-full max-h-fit items-center px-4 py-6">
+    <div className="flex flex-col w-full h-full max-h-fit items-center px-4 py-6 bg-[#E6FFFA]">
       <h1 className="text-3xl font-bold mb-4">บันทึกรายรับ-รายจ่าย</h1>
 
       {!user ? (
@@ -88,7 +88,7 @@ export default function TransactionPage() {
               {isLoading ? "กำลังบันทึก..." : "เพิ่มรายการ"}
             </Button>
           </div>
-          <div className="flex flex-col w-full h-3/6 md:h-1/2 max-w-xl md:max-h-max mt-6 shadow-xl p-2 rounded-lg border">
+          <div className="flex flex-col w-full h-3/6 md:h-1/2 max-w-xl md:max-h-max mt-6 shadow-xl p-2 rounded-lg border bg-white">
             <h2 className="flex items-center text-xl font-bold mb-2 gap-2 p-2"><List />รายการล่าสุด</h2>
             {transactions.length === 0 ? (
               <p className="text-gray-500">{isLoading ? "loading..." : "ไม่มีรายการ"}</p>

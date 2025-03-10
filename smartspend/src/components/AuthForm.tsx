@@ -46,21 +46,8 @@ export default function AuthForm() {
     }
   };
 
-  // const handleResetPassword = async () => {
-  //   if (!email) {
-  //     alert("Please enter your email to reset password.");
-  //     return;
-  //   }
-  //   try {
-  //     await sendPasswordResetEmail(auth, email);
-  //     alert("Password reset email sent! Check your inbox.");
-  //   } catch (err: any) {
-  //     setError(err.message);
-  //   }
-  // };
-
   return (
-    <Card className="w-96 flex flex-col">
+    <Card className="w-11/12 md:w-96 flex flex-col">
       <CardHeader>
         <CardTitle className="text-center">{isRegister ? "Register" : "Sign In"}</CardTitle>
       </CardHeader>

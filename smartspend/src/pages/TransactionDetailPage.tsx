@@ -1,11 +1,13 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { doc, getDoc, updateDoc } from "@firebase/firestore";
 import { db } from "@/firebaseConfig";
-import { CalendarFold, Clock, FileText} from "lucide-react";
+import { CalendarFold, Clock, Save, Trash2 } from "lucide-react";
+import { deleteTransaction } from "@/services/transactionService";
+import { Label } from "@/components/ui/label"
 
 export default function TransactionDetailPage() {
     const { id } = useParams<{ id: string }>(); // ดึง id จาก URL
@@ -17,10 +19,12 @@ export default function TransactionDetailPage() {
         l_date: string;
         l_time: string;
     } | null>(null);
-    
+
     const [amount, setAmount] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
+        document.title = "Transaction Detail | SmartSpend";
         const fetchTransaction = async () => {
             if (!id) return;
 
@@ -62,34 +66,62 @@ export default function TransactionDetailPage() {
             alert("เกิดข้อผิดพลาดในการบันทึก");
         }
     };
+    const handleDelete = async () => {
+        if (!transaction || !id) return;
+
+        try {
+            await deleteTransaction(id);
+            setTransaction(null);
+            alert("ลบข้อมูลเรียบร้อยแล้ว!");
+            navigate("/transactions");
+        } catch (error) {
+            console.error("Error deleting document: ", error);
+            alert("เกิดข้อผิดพลาดในการลบ");
+        }
+    }
 
     if (!transaction) {
         return <p className="text-center">ไม่พบข้อมูลธุรกรรม</p>;
     }
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <Card className="w-[350px] shadow-lg p-4">
+        <div className="flex justify-center bg-[#E6FFFA] w-full h-full">
+            <Card className="w-5/6 md:w-2/6 shadow-lg p-4 mt-10 bg-white h-fit">
                 <CardHeader>
-                    <CardTitle className="flex"><FileText className="w-5 h-5"/>ธุรกรรม ID: {transaction.id}</CardTitle>
+                    <CardTitle className="flex flex-col md:flex-row text-xl gap-2">
+                        <div className="font-semibold text-zinc-500">รหัสธุรกรรม (ID): </div>
+                        <div className="font-semibold"> {transaction.id}</div>
+                    </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <p className="text-lg font-semibold"> ชื่อรายการ: {transaction.category}</p>
-                    <p className="text-gray-500 flex"><CalendarFold /> วันที่: {transaction.l_date}</p>
-                    <p className="text-gray-500 flex"><Clock /> {transaction.l_time}</p>
+                    <hr />
+                    <div className="flex gap-2 mt-4">
+                        <div className="text-lg font-semibold text-zinc-500 ">ชื่อรายการ:</div>
+                        <div className="text-lg font-semibold"> {transaction.category} </div>
+                    </div>
+                    <div className="flex flex-col gap-2 p-2">
+                        <div className=" flex gap-2 items-center"><CalendarFold className="w-5 h-5" /><div className="text-gray-500 text-lg">{transaction.l_date}</div></div>
+                        <div className="flex gap-2 items-center"><Clock className="w-5 h-5" /> <div className="text-gray-500 text-lg">{transaction.l_time}</div></div>
+                    </div>
 
-                    <div className="mt-4">
-                        <label className="block text-sm font-medium text-gray-700">จำนวนเงิน (บาท)</label>
+
+                    <div className="mt-4 px-2">
+                        <Label >จำนวนเงิน (บาท)</Label>
                         <Input
                             type="number"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
                         />
                     </div>
-
-                    <Button className="mt-4 w-full" onClick={handleSave}>
-                        บันทึกการเปลี่ยนแปลง
-                    </Button>
+                    <div className="flex w-full justify-between px-2">
+                        <Button className="mt-4 bg-[#ECC94B] hover:bg-[#F6E05E] duration-300 flex items-center" onClick={handleSave}>
+                            <Save />
+                            บันทึก
+                        </Button>
+                        <Button className="gap-2 mt-4 text-white bg-[#ec4b4b] hover:bg-[#f65e5e] duration-300 rounded-full" onClick={handleDelete}>
+                            <Trash2 />
+                        </Button>
+                    </div>
                 </CardContent>
             </Card>
         </div>

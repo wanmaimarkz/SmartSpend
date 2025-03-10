@@ -45,7 +45,7 @@ export default function Dashboard() {
   }, [user]);
 
   return (
-    <div className="flex flex-col items-center h-screen bg-gray-100 px-4 py-10">
+    <div className="flex flex-col items-center h-screen bg-[#E6FFFA] px-4 py-10 overflow-y-auto">
       <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
       <p className="text-gray-600 mb-4">Welcome to your financial dashboard.</p>
 

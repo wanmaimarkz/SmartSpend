@@ -3,6 +3,7 @@ import { convertCurrency } from "@/services/convertCurrency";
 import CurrencyDropdown from "@/components/CurrencyDropdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const CurrencyConverter = () => {
     const [amount, setAmount] = useState<number>(1);
@@ -20,26 +21,42 @@ const CurrencyConverter = () => {
 
     useEffect(() => {
         document.title = "Convert Currency | SmartSpend";
-      }, []);
+    }, []);
 
     return (
         <div className="p-4 max-w-md mx-auto bg-white shadow-md rounded-lg mt-5 border">
-            <h2 className="text-xl font-bold mb-4">Currency Converter</h2>
+            <h2 className="text-4xl font-bold mb-4 flex justify-center">การแลกเปลี่ยนสกุลเงิน</h2>
+            {convertedAmount !== null ? (
+                <div className="p-1">
+                    <p className="text-base">
+                        แลกเปลี่ยนจาก <b className="text-red-500">{fromCurrency}</b>  ไปสู่ <b className="text-green-500">{toCurrency}</b> ได้จำนวนเงิน: 
+                    </p>
+                    <div className="flex justify-center px-8 py-10 font-bold text-3xl">
+                    {convertedAmount} {toCurrency}
+                    </div>
+                </div>
+
+            ):(
+                <div className="flex justify-center p-5 font-bold text-3xl text-zinc-200">
+                    ยังไม่มี
+                </div>
+            )}
             <div className="mb-2">
-                <label>Amount:</label>
+                <Label>จำนวนเงิน</Label>
                 <Input
                     type="number"
                     value={amount}
                     onChange={(e) => setAmount(Number(e.target.value))}
                     className="border p-2 w-fullw hover:bg-blue-50"
+                    min={0}
                 />
             </div>
             <div className="mb-2">
-                <label>From:</label>
+                <Label>จาก</Label>
                 <CurrencyDropdown selectedCurrency={fromCurrency} onChange={setFromCurrency} />
             </div>
             <div className="mb-2">
-                <label>To:</label>
+                <Label>เป็น</Label>
                 <CurrencyDropdown selectedCurrency={toCurrency} onChange={setToCurrency} />
             </div>
             <Button
@@ -49,12 +66,6 @@ const CurrencyConverter = () => {
             >
                 {loading ? "Converting..." : "Convert"}
             </Button>
-
-            {convertedAmount !== null && (
-                <p className="mt-4 text-lg font-bold">
-                    Converted Amount: {convertedAmount} {toCurrency}
-                </p>
-            )}
         </div>
     );
 };

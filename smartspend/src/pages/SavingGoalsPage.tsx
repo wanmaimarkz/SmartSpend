@@ -63,7 +63,7 @@ export default function SavingsGoal() {
   };
 
   return (
-    <div className="flex flex-col items-center h-full bg-gray-100 py-10 px-5">
+    <div className="flex flex-col items-center h-full bg-[#E6FFFA] py-10 px-5">
       <Card className="lg:w-full max-w-lg p-6 text-center bg-white">
         <h2 className="flex gap-2 justify-center text-4xl font-bold text-gray-800 mb-4">เป้าหมายการออม</h2>
 
@@ -141,7 +141,7 @@ export default function SavingsGoal() {
               onChange={(e) => setNewGoalAmount(e.target.value)}
               placeholder="จำนวนเงินเป้าหมาย"
             />
-            <Button onClick={handleCreateGoal} className="w-full bg-green-500 text-white hover:bg-green-700 duration-300">
+            <Button onClick={handleCreateGoal} className="w-full bg-[#2C7A7B] text-white hover:bg-green-700 duration-300">
               สร้างเป้าหมายออมเงิน
             </Button>
           </CardContent>
