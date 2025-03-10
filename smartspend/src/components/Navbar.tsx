@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { 
+import {
     Menu, NotebookPen, Gauge, LogOut, ArrowRightLeft, User, ListTree, Flag
 } from 'lucide-react';
 import {
@@ -12,7 +12,6 @@ import {
 
 export default function Navbar({ onLogout }: { onLogout: () => void }) {
     const [isOpen, setIsOpen] = useState(false);
-
     const toggleMenu = () => setIsOpen(!isOpen);
 
     return (
@@ -51,7 +50,7 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                             to="/savingGoals"
                             className="flex h-4/6 text-sm font-semibold gap-2 items-center rounded-md px-4 text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black  transition duration-200"
                         >
-                            Saving Goals   
+                            Saving Goals
                         </Link>
                     </div>
                     <div className="hidden sm:flex sm:items-center sm:space-x-6 w-1/12 justify-end">
@@ -73,7 +72,12 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                                 <hr /> */}
                                 <DropdownMenuItem onClick={onLogout} className="hover:bg-gray-200 duration-300">
                                     <LogOut className="w-4 h-4 mr-2" />
-                                    <span>Logout</span>
+                                    <Link
+                                        to="/login"
+                                        onClick={onLogout}
+                                    >
+                                        ออกจากระบบ
+                                    </Link>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
@@ -86,12 +90,12 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                             className="p-2 rounded-md text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white transition duration-700"
                         >
                             <span className="sr-only">Open main menu</span>
-                                {!isOpen ? (
-                                    
-                                    <Menu/>
-                                ) : (
-                                    <ListTree/>
-                                )}
+                            {!isOpen ? (
+
+                                <Menu />
+                            ) : (
+                                <ListTree />
+                            )}
                         </button>
                     </div>
                 </div>
@@ -105,7 +109,6 @@ export default function Navbar({ onLogout }: { onLogout: () => void }) {
                             to="/dashboard"
                             onClick={() => setIsOpen(false)}
                             className="flex items-center gap-2 pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-[#E6FFFA] hover:bg-[#38B2AC] hover:opacity-80 hover:text-black hover:border-white"
-                            
                         >
                             <Gauge />
                             Dashboard
